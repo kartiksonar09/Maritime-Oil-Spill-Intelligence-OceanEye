@@ -82,48 +82,68 @@ export const MaritimeMap: React.FC<MaritimeMapProps> = ({
   useEffect(() => {
     if (!mapContainerRef.current) return;
 
-    // Fix default Leaflet icon paths
-    delete (L.Icon.Default.prototype as unknown as { _getIconUrl?: unknown })._getIconUrl;
-    L.Icon.Default.mergeOptions({
-      iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
-      iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-      shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
-    });
+    try {
+      // Clear any stale Leaflet reference on the container
+      const container = mapContainerRef.current as HTMLDivElement & { _leaflet_id?: string | number | null };
+      if (container._leaflet_id) {
+        container._leaflet_id = null;
+      }
 
-    if (!mapInstanceRef.current) {
-      const map = L.map(mapContainerRef.current, {
-        center: [incident.coordinates.lat, incident.coordinates.lng],
-        zoom: 9,
-        zoomControl: false,
-        attributionControl: true
-      });
-
-      L.control.zoom({ position: 'bottomright' }).addTo(map);
-
-      // Layer groups
-      layerGroupsRef.current = {
-        slick: L.layerGroup().addTo(map),
-        hindcast: L.layerGroup().addTo(map),
-        forecast: L.layerGroup().addTo(map),
-        origin: L.layerGroup().addTo(map),
-        aisTracks: L.layerGroup().addTo(map),
-        vessels: L.layerGroup().addTo(map),
-        coastalRisk: L.layerGroup().addTo(map),
-      };
-
-      map.on('mousemove', (e: L.LeafletMouseEvent) => {
-        setCursorCoords({
-          lat: Number(e.latlng.lat.toFixed(4)),
-          lng: Number(e.latlng.lng.toFixed(4))
+      // Fix default Leaflet icon paths
+      try {
+        delete (L.Icon.Default.prototype as unknown as { _getIconUrl?: unknown })._getIconUrl;
+        L.Icon.Default.mergeOptions({
+          iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+          iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+          shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
         });
-      });
+      } catch (iconErr) {
+        console.warn('Leaflet icon path config non-fatal notice:', iconErr);
+      }
 
-      mapInstanceRef.current = map;
+      if (!mapInstanceRef.current && mapContainerRef.current) {
+        const map = L.map(mapContainerRef.current, {
+          center: [incident.coordinates.lat, incident.coordinates.lng],
+          zoom: 9,
+          zoomControl: false,
+          attributionControl: true
+        });
+
+        L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+        // Layer groups
+        layerGroupsRef.current = {
+          slick: L.layerGroup().addTo(map),
+          hindcast: L.layerGroup().addTo(map),
+          forecast: L.layerGroup().addTo(map),
+          origin: L.layerGroup().addTo(map),
+          aisTracks: L.layerGroup().addTo(map),
+          vessels: L.layerGroup().addTo(map),
+          coastalRisk: L.layerGroup().addTo(map),
+        };
+
+        map.on('mousemove', (e: L.LeafletMouseEvent) => {
+          if (e && e.latlng) {
+            setCursorCoords({
+              lat: Number(e.latlng.lat.toFixed(4)),
+              lng: Number(e.latlng.lng.toFixed(4))
+            });
+          }
+        });
+
+        mapInstanceRef.current = map;
+      }
+    } catch (err) {
+      console.error('Maritime map initialization error:', err);
     }
 
     return () => {
       if (mapInstanceRef.current) {
-        mapInstanceRef.current.remove();
+        try {
+          mapInstanceRef.current.remove();
+        } catch (removeErr) {
+          console.warn('Map cleanup notice:', removeErr);
+        }
         mapInstanceRef.current = null;
       }
     };
@@ -134,32 +154,36 @@ export const MaritimeMap: React.FC<MaritimeMapProps> = ({
     const map = mapInstanceRef.current;
     if (!map) return;
 
-    // Remove existing tile layers
-    map.eachLayer((layer) => {
-      if (layer instanceof L.TileLayer) {
-        map.removeLayer(layer);
+    try {
+      // Remove existing tile layers
+      map.eachLayer((layer) => {
+        if (layer instanceof L.TileLayer) {
+          map.removeLayer(layer);
+        }
+      });
+
+      let tileUrl = '';
+      let attribution = '';
+
+      if (mapStyle === 'dark') {
+        tileUrl = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
+        attribution = '&copy; <a href="https://carto.com/">CARTO</a> &copy; OpenStreetMap contributors';
+      } else if (mapStyle === 'satellite') {
+        tileUrl = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
+        attribution = 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community';
+      } else {
+        tileUrl = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
+        attribution = '&copy; <a href="https://carto.com/">CARTO</a>';
       }
-    });
 
-    let tileUrl = '';
-    let attribution = '';
-
-    if (mapStyle === 'dark') {
-      tileUrl = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
-      attribution = '&copy; <a href="https://carto.com/">CARTO</a> &copy; OpenStreetMap contributors';
-    } else if (mapStyle === 'satellite') {
-      tileUrl = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
-      attribution = 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community';
-    } else {
-      tileUrl = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
-      attribution = '&copy; <a href="https://carto.com/">CARTO</a>';
+      L.tileLayer(tileUrl, {
+        attribution,
+        maxZoom: 18,
+        subdomains: 'abcd'
+      }).addTo(map);
+    } catch (tileErr) {
+      console.warn('Base tile layer switch warning:', tileErr);
     }
-
-    L.tileLayer(tileUrl, {
-      attribution,
-      maxZoom: 18,
-      subdomains: 'abcd'
-    }).addTo(map);
   }, [mapStyle]);
 
   // Render Incident Features & Layers
@@ -168,14 +192,16 @@ export const MaritimeMap: React.FC<MaritimeMapProps> = ({
     const lg = layerGroupsRef.current;
     if (!map || !lg || !incident) return;
 
-    // Clear all layers
-    lg.slick.clearLayers();
-    lg.hindcast.clearLayers();
-    lg.forecast.clearLayers();
-    lg.origin.clearLayers();
-    lg.aisTracks.clearLayers();
-    lg.vessels.clearLayers();
-    lg.coastalRisk.clearLayers();
+    try {
+      // Clear all layers
+      lg.slick.clearLayers();
+      lg.hindcast.clearLayers();
+      lg.forecast.clearLayers();
+      lg.origin.clearLayers();
+      lg.aisTracks.clearLayers();
+      lg.vessels.clearLayers();
+      lg.coastalRisk.clearLayers();
+
 
     // 1. Detected Slick Polygon
     if (layers.slick && incident.slick) {
@@ -453,7 +479,9 @@ export const MaritimeMap: React.FC<MaritimeMapProps> = ({
       [incident.coordinates.lat + 0.35, incident.coordinates.lng + 0.45]
     ]);
     map.fitBounds(bounds, { padding: [30, 30] });
-
+    } catch (layerErr) {
+      console.warn('Error updating map layers:', layerErr);
+    }
   }, [incident, layers, selectedVessel, onSelectVessel]);
 
   // Center map on selected vessel
