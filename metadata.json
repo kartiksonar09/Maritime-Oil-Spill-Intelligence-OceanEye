@@ -1,0 +1,6 @@
+{
+  "name": "Maritime Oil Spill Intelligence",
+  "description": "AI Oil Spill Detection & Vessel Attribution - Automated satellite SAR detection, hydrodynamic drift hindcasting, and AIS vessel attribution platform.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
