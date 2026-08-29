@@ -87,9 +87,9 @@ export const Header: React.FC<HeaderProps> = ({
           {showIncidentDropdown && (
             <div className="absolute top-full left-0 mt-2 w-80 bg-neutral-900/95 border border-neutral-800 rounded-2xl shadow-2xl p-2.5 z-50 backdrop-blur-2xl animate-in fade-in zoom-in-95 duration-150">
               <div className="text-[10px] font-bold text-neutral-400 px-2 py-1 uppercase tracking-widest">
-                Select Active Surveillance Incident
+                Select Active Surveillance Incident ({incidents.length})
               </div>
-              <div className="space-y-1.5 mt-1.5">
+              <div className="space-y-1.5 mt-1.5 max-h-[380px] overflow-y-auto pr-1">
                 {incidents.map(inc => (
                   <button
                     key={inc.id}

@@ -888,6 +888,636 @@ export const MOCK_INCIDENTS: Incident[] = [
     isDemoData: true,
     isSimulated: true,
     lastUpdated: '2026-08-27T20:10:00Z'
+  },
+  {
+    id: 'inc-004',
+    incidentCode: 'OS-2026-004',
+    title: 'Goa Mormugao Port Approach & Iron-Ore Corridor Spill',
+    region: 'Goa Coast (Arabian Sea)',
+    subRegion: 'Mormugao Anchorage & Konkan Shipping Zone',
+    coordinates: { lat: 15.420, lng: 73.680 },
+    detectionTimestamp: '2026-08-28T16:20:00Z',
+    status: 'CONFIRMED_INVESTIGATION',
+    satellite: {
+      sensor: 'SENTINEL_1_SAR',
+      satelliteName: 'Sentinel-1C Synthetic Aperture Radar',
+      orbitPass: 'Descending',
+      resolutionMeters: 10,
+      polarization: 'VV + VH',
+      sceneId: 'S1C_IW_GRDH_1SDV_20260828T162015_046112_058A9F',
+      acquisitionTime: '2026-08-28T16:20:15Z',
+    },
+    detectionConfidence: 93,
+    slick: {
+      type: 'Polygon',
+      coordinates: [
+        [15.440, 73.650],
+        [15.460, 73.690],
+        [15.435, 73.720],
+        [15.405, 73.680],
+        [15.415, 73.645],
+        [15.440, 73.650],
+      ],
+      center: { lat: 15.420, lng: 73.680 },
+      areaKm2: 14.8,
+      perimeterKm: 16.9,
+      majorAxisKm: 5.8,
+      minorAxisKm: 2.6,
+      orientationDeg: 54,
+      estimatedThicknessUm: 35,
+      estimatedVolumeM3: 518,
+    },
+    characterization: {
+      spillType: 'Suspected Mineral Heavy Fuel Oil',
+      slickCategory: 'Continuous Dark Patch',
+      weatheringStage: 'Fresh Discharge',
+      estimatedSpillWindowStart: '2026-08-28T13:30:00Z',
+      estimatedSpillWindowEnd: '2026-08-28T14:45:00Z',
+    },
+    environmental: {
+      windSpeedKts: 13.0,
+      windDirectionDeg: 235,
+      currentSpeedKts: 0.90,
+      currentDirectionDeg: 45,
+      waveHeightM: 1.2,
+      seaState: 'Moderate',
+      seaSurfaceTempC: 28.9,
+      waterDensityKgM3: 1024.1,
+      tidePhase: 'Ebb Tide (+1.1m)',
+    },
+    drift: {
+      hindcastPoints: [
+        { hourOffset: 0, timestamp: '2026-08-28T16:20:00Z', lat: 15.420, lng: 73.680, uncertaintyRadiusKm: 0.4, windContributionKts: 0.39, currentContributionKts: 0.90, label: 'Observed Slick Center (T=0)' },
+        { hourOffset: -1.5, timestamp: '2026-08-28T14:50:00Z', lat: 15.375, lng: 73.620, uncertaintyRadiusKm: 1.4, windContributionKts: 0.39, currentContributionKts: 0.90, label: 'Hindcast -1.5h' },
+        { hourOffset: -2.8, timestamp: '2026-08-28T13:32:00Z', lat: 15.335, lng: 73.565, uncertaintyRadiusKm: 2.6, windContributionKts: 0.38, currentContributionKts: 0.88, label: 'Probable Origin Zone' }
+      ],
+      probableOrigin: {
+        center: { lat: 15.335, lng: 73.565 },
+        uncertaintyRadiusKm: 3.1,
+        estimatedTime: '2026-08-28T13:30:00Z to 14:15:00Z',
+        confidencePercent: 84,
+        searchRadiusNm: 5.2,
+      },
+      forecastPoints: [
+        { hourOffset: 0, timestamp: '2026-08-28T16:20:00Z', lat: 15.420, lng: 73.680, uncertaintyRadiusKm: 0.4, windContributionKts: 0.39, currentContributionKts: 0.90 },
+        { hourOffset: 6, timestamp: '2026-08-28T22:20:00Z', lat: 15.490, lng: 73.780, uncertaintyRadiusKm: 2.9, windContributionKts: 0.40, currentContributionKts: 0.92, label: 'Forecast +6h' },
+        { hourOffset: 12, timestamp: '2026-08-29T04:20:00Z', lat: 15.560, lng: 73.880, uncertaintyRadiusKm: 5.6, windContributionKts: 0.41, currentContributionKts: 0.94, label: 'Forecast +12h' }
+      ],
+      coastalImpactRisk: {
+        willImpactCoast: true,
+        estimatedImpactTime: '2026-08-29T06:30:00Z',
+        nearestCoastlineKm: 11.4,
+        threatenedSensitiveZones: ['Mormugao Harbor Approaches', 'Grand Island Coral Reef & Tourist Marine Reserve', 'Dona Paula Bay'],
+      }
+    },
+    topCandidateMmsi: '354120980',
+    candidateVessels: [
+      {
+        mmsi: '354120980',
+        imo: '9481235',
+        vesselName: 'MV Goa Pioneer',
+        callsign: '3FYK',
+        vesselType: 'Bulk Carrier',
+        flag: 'Panama',
+        flagCode: 'PA',
+        lengthM: 228,
+        beamM: 32,
+        draughtM: 12.8,
+        destination: 'MORMUGAO',
+        eta: '2026-08-28T18:00:00Z',
+        currentPosition: { lat: 15.430, lng: 73.740 },
+        minDistanceToOriginKm: 0.92,
+        timeAtClosestApproach: '2026-08-28T13:45:00Z',
+        closestApproachDeltaHours: 0.15,
+        attributionScore: 89,
+        attributionRank: 1,
+        confidenceGrade: 'HIGH',
+        factors: [
+          { name: 'Spatial Proximity', score: 92, weight: 0.30, description: '920m from hindcast origin centroid.', evidenceSummary: 'Close passage near origin', isPositiveIndicator: true },
+          { name: 'Temporal Correlation', score: 90, weight: 0.25, description: 'Directly in the 13:30-14:45 release window.', evidenceSummary: 'Timing match within 15 min', isPositiveIndicator: true },
+          { name: 'Trajectory Consistency', score: 86, weight: 0.20, description: 'Course 055° perfectly matching slick elongation.', evidenceSummary: 'Vector orientation match', isPositiveIndicator: true },
+          { name: 'Drift Vector Consistency', score: 88, weight: 0.15, description: 'Oceanographic surface flow tracks from vessel position.', evidenceSummary: 'Upstream current alignment', isPositiveIndicator: true },
+          { name: 'AIS Data Quality', score: 85, weight: 0.10, description: 'Continuous transponder signals with minor speed jitter.', evidenceSummary: 'Clean AIS stream', isPositiveIndicator: true }
+        ],
+        explainableSummary: [
+          'Vessel transited 920m from origin centroid at 13:45 UTC during iron ore anchorage queue.',
+          'Speed decreased unexpectedly from 12.4 kts to 6.2 kts during transit.',
+          'High priority candidate for Mormugao Port State Control & Coast Guard inspection.'
+        ],
+        aisDataQuality: { pingCount: 78, gapDetected: false, anomalousSpeedDrop: true, spoofingProbabilityPercent: 1.2 },
+        track: [
+          { timestamp: '2026-08-28T12:00:00Z', lat: 15.240, lng: 73.420, speedKts: 12.4, courseDeg: 55, headingDeg: 55, navStatus: 'Underway using engine' },
+          { timestamp: '2026-08-28T13:45:00Z', lat: 15.340, lng: 73.570, speedKts: 6.2, courseDeg: 54, headingDeg: 55, navStatus: 'Underway using engine' },
+          { timestamp: '2026-08-28T15:30:00Z', lat: 15.420, lng: 73.710, speedKts: 8.5, courseDeg: 56, headingDeg: 56, navStatus: 'Underway using engine' }
+        ]
+      },
+      {
+        mmsi: '636015770',
+        imo: '9312088',
+        vesselName: 'MT Mandovi Star',
+        callsign: 'A8QK',
+        vesselType: 'Chemical Tanker',
+        flag: 'Liberia',
+        flagCode: 'LR',
+        lengthM: 183,
+        beamM: 28,
+        draughtM: 10.1,
+        destination: 'MANGALORE',
+        eta: '2026-08-29T02:00:00Z',
+        currentPosition: { lat: 15.150, lng: 73.850 },
+        minDistanceToOriginKm: 8.4,
+        timeAtClosestApproach: '2026-08-28T14:20:00Z',
+        closestApproachDeltaHours: 0.6,
+        attributionScore: 56,
+        attributionRank: 2,
+        confidenceGrade: 'MEDIUM',
+        factors: [
+          { name: 'Spatial Proximity', score: 55, weight: 0.30, description: '8.4 km offset from origin.', evidenceSummary: 'Peripheral transit', isPositiveIndicator: false },
+          { name: 'Temporal Correlation', score: 72, weight: 0.25, description: 'In vicinity during spill window.', evidenceSummary: 'Moderate temporal match', isPositiveIndicator: true },
+          { name: 'Trajectory Consistency', score: 50, weight: 0.20, description: 'Southbound coastal course.', evidenceSummary: 'Divergent heading', isPositiveIndicator: false },
+          { name: 'Drift Vector Consistency', score: 48, weight: 0.15, description: 'Downstream corridor.', evidenceSummary: 'Low hydrodynamic correlation', isPositiveIndicator: false },
+          { name: 'AIS Data Quality', score: 90, weight: 0.10, description: 'Stable AIS track without anomalies.', evidenceSummary: 'Regular transmission', isPositiveIndicator: true }
+        ],
+        explainableSummary: ['Maintained standard transit lane 8.4 km south. Secondary correlation.'],
+        aisDataQuality: { pingCount: 84, gapDetected: false, anomalousSpeedDrop: false, spoofingProbabilityPercent: 0.4 },
+        track: [
+          { timestamp: '2026-08-28T13:00:00Z', lat: 15.550, lng: 73.650, speedKts: 13.8, courseDeg: 165, headingDeg: 165, navStatus: 'Underway using engine' },
+          { timestamp: '2026-08-28T14:20:00Z', lat: 15.280, lng: 73.740, speedKts: 13.6, courseDeg: 165, headingDeg: 165, navStatus: 'Underway using engine' }
+        ]
+      }
+    ],
+    evidenceTimeline: [
+      { id: 'evt-g1', timestamp: '2026-08-28T13:45:00Z', timeRelative: '-2h 35m', category: 'AIS', title: 'MV Goa Pioneer Slows Near Mormugao Approach', description: 'Capesize bulker slows to 6.2 kts at 920m from reconstructed origin.', severity: 'WARNING', vesselMmsi: '354120980' },
+      { id: 'evt-g2', timestamp: '2026-08-28T16:20:00Z', timeRelative: '0h 00m', category: 'SATELLITE', title: 'Sentinel-1C SAR Ingestion (Goa Waters)', description: 'Synthetic Aperture Radar detects 14.8 km² slick heading toward Mormugao harbor.', severity: 'ALERT' },
+      { id: 'evt-g3', timestamp: '2026-08-28T16:30:00Z', timeRelative: '+10m', category: 'CORRELATION', title: 'AI Attribution Complete: MV Goa Pioneer (89%)', description: 'Strong spatial-temporal correlation with Goa Port approaches.', severity: 'CRITICAL', vesselMmsi: '354120980' }
+    ],
+    isDemoData: true,
+    isSimulated: true,
+    lastUpdated: '2026-08-28T16:35:00Z'
+  },
+  {
+    id: 'inc-005',
+    incidentCode: 'OS-2026-005',
+    title: 'Kerala Malabar Coast & Kochi SPM Channel Spill',
+    region: 'Kerala Coast (Arabian Sea)',
+    subRegion: 'Kochi Offshore SPM & Malabar Marine Corridor',
+    coordinates: { lat: 9.940, lng: 75.980 },
+    detectionTimestamp: '2026-08-28T18:10:00Z',
+    status: 'CONFIRMED_INVESTIGATION',
+    satellite: {
+      sensor: 'SENTINEL_1_SAR',
+      satelliteName: 'Sentinel-1A Synthetic Aperture Radar',
+      orbitPass: 'Ascending',
+      resolutionMeters: 10,
+      polarization: 'VV + VH',
+      sceneId: 'S1A_IW_GRDH_1SDV_20260828T181022_051201_062C7B',
+      acquisitionTime: '2026-08-28T18:10:22Z',
+    },
+    detectionConfidence: 95,
+    slick: {
+      type: 'Polygon',
+      coordinates: [
+        [9.960, 75.950],
+        [9.980, 76.010],
+        [9.940, 76.040],
+        [9.910, 75.990],
+        [9.920, 75.940],
+        [9.960, 75.950],
+      ],
+      center: { lat: 9.940, lng: 75.980 },
+      areaKm2: 16.2,
+      perimeterKm: 18.1,
+      majorAxisKm: 6.4,
+      minorAxisKm: 2.8,
+      orientationDeg: 68,
+      estimatedThicknessUm: 40,
+      estimatedVolumeM3: 648,
+    },
+    characterization: {
+      spillType: 'Suspected Crude Oil Wash',
+      slickCategory: 'Continuous Dark Patch',
+      weatheringStage: 'Fresh Discharge',
+      estimatedSpillWindowStart: '2026-08-28T15:20:00Z',
+      estimatedSpillWindowEnd: '2026-08-28T16:40:00Z',
+    },
+    environmental: {
+      windSpeedKts: 15.2,
+      windDirectionDeg: 250,
+      currentSpeedKts: 0.95,
+      currentDirectionDeg: 70,
+      waveHeightM: 1.4,
+      seaState: 'Moderate',
+      seaSurfaceTempC: 29.5,
+      waterDensityKgM3: 1023.9,
+      tidePhase: 'Flood Tide (+1.4m)',
+    },
+    drift: {
+      hindcastPoints: [
+        { hourOffset: 0, timestamp: '2026-08-28T18:10:00Z', lat: 9.940, lng: 75.980, uncertaintyRadiusKm: 0.4, windContributionKts: 0.45, currentContributionKts: 0.95, label: 'Observed Slick Center' },
+        { hourOffset: -1.5, timestamp: '2026-08-28T16:40:00Z', lat: 9.890, lng: 75.910, uncertaintyRadiusKm: 1.3, windContributionKts: 0.45, currentContributionKts: 0.95, label: 'Hindcast -1.5h' },
+        { hourOffset: -2.6, timestamp: '2026-08-28T15:34:00Z', lat: 9.850, lng: 75.845, uncertaintyRadiusKm: 2.4, windContributionKts: 0.44, currentContributionKts: 0.93, label: 'Probable Origin Zone' }
+      ],
+      probableOrigin: {
+        center: { lat: 9.850, lng: 75.845 },
+        uncertaintyRadiusKm: 2.9,
+        estimatedTime: '2026-08-28T15:30:00Z to 16:15:00Z',
+        confidencePercent: 88,
+        searchRadiusNm: 4.8,
+      },
+      forecastPoints: [
+        { hourOffset: 0, timestamp: '2026-08-28T18:10:00Z', lat: 9.940, lng: 75.980, uncertaintyRadiusKm: 0.4, windContributionKts: 0.45, currentContributionKts: 0.95 },
+        { hourOffset: 6, timestamp: '2026-08-29T00:10:00Z', lat: 10.020, lng: 76.090, uncertaintyRadiusKm: 3.1, windContributionKts: 0.46, currentContributionKts: 0.97, label: 'Forecast +6h' },
+        { hourOffset: 12, timestamp: '2026-08-29T06:10:00Z', lat: 10.100, lng: 76.190, uncertaintyRadiusKm: 6.0, windContributionKts: 0.47, currentContributionKts: 0.99, label: 'Forecast +12h' }
+      ],
+      coastalImpactRisk: {
+        willImpactCoast: true,
+        estimatedImpactTime: '2026-08-29T04:30:00Z',
+        nearestCoastlineKm: 8.5,
+        threatenedSensitiveZones: ['Kochi Port Single Point Mooring (SPM) Zone', 'Vembanad Lake Estuarine Fisheries & Mangroves', 'Fort Kochi Heritage Beach'],
+      }
+    },
+    topCandidateMmsi: '636018440',
+    candidateVessels: [
+      {
+        mmsi: '636018440',
+        imo: '9429112',
+        vesselName: 'MT Malabar Express',
+        callsign: 'A8ZY',
+        vesselType: 'Crude Oil Tanker',
+        flag: 'Liberia',
+        flagCode: 'LR',
+        lengthM: 244,
+        beamM: 42,
+        draughtM: 14.5,
+        destination: 'KOCHI SPM',
+        eta: '2026-08-28T20:00:00Z',
+        currentPosition: { lat: 9.960, lng: 76.020 },
+        minDistanceToOriginKm: 0.75,
+        timeAtClosestApproach: '2026-08-28T15:48:00Z',
+        closestApproachDeltaHours: 0.12,
+        attributionScore: 92,
+        attributionRank: 1,
+        confidenceGrade: 'HIGH',
+        factors: [
+          { name: 'Spatial Proximity', score: 95, weight: 0.30, description: '750m from hindcast origin centroid.', evidenceSummary: 'Extremely close proximity', isPositiveIndicator: true },
+          { name: 'Temporal Correlation', score: 93, weight: 0.25, description: 'Transit exactly at estimated discharge window peak.', evidenceSummary: 'Delta < 8 mins', isPositiveIndicator: true },
+          { name: 'Trajectory Consistency', score: 90, weight: 0.20, description: 'Heading 068° aligned with slick expansion.', evidenceSummary: 'Vector orientation match', isPositiveIndicator: true },
+          { name: 'Drift Vector Consistency', score: 91, weight: 0.15, description: 'Tidal flood current aligns directly with vessel wake.', evidenceSummary: 'Full hydrodynamic alignment', isPositiveIndicator: true },
+          { name: 'AIS Data Quality', score: 86, weight: 0.10, description: 'High ping density during approach.', evidenceSummary: 'Dense transponder feed', isPositiveIndicator: true }
+        ],
+        explainableSummary: [
+          'Crude oil tanker navigated within 750m of origin centroid at 15:48 UTC.',
+          'Vessel preparing for Single Point Mooring (SPM) discharge at Kochi.',
+          'Identified as primary suspect with 92% confidence attribution.'
+        ],
+        aisDataQuality: { pingCount: 96, gapDetected: false, anomalousSpeedDrop: false, spoofingProbabilityPercent: 0.8 },
+        track: [
+          { timestamp: '2026-08-28T14:00:00Z', lat: 9.720, lng: 75.680, speedKts: 13.5, courseDeg: 68, headingDeg: 68, navStatus: 'Underway using engine' },
+          { timestamp: '2026-08-28T15:48:00Z', lat: 9.855, lng: 75.850, speedKts: 12.1, courseDeg: 68, headingDeg: 68, navStatus: 'Underway using engine' },
+          { timestamp: '2026-08-28T17:30:00Z', lat: 9.945, lng: 75.990, speedKts: 9.8, courseDeg: 69, headingDeg: 69, navStatus: 'Underway using engine' }
+        ]
+      },
+      {
+        mmsi: '419000880',
+        imo: '9385540',
+        vesselName: 'MV Cochin Pride',
+        callsign: 'AWKR',
+        vesselType: 'Container Ship',
+        flag: 'India',
+        flagCode: 'IN',
+        lengthM: 195,
+        beamM: 30,
+        draughtM: 10.5,
+        destination: 'VALLARPADAM',
+        eta: '2026-08-28T19:30:00Z',
+        currentPosition: { lat: 9.980, lng: 76.080 },
+        minDistanceToOriginKm: 7.2,
+        timeAtClosestApproach: '2026-08-28T16:10:00Z',
+        closestApproachDeltaHours: 0.45,
+        attributionScore: 58,
+        attributionRank: 2,
+        confidenceGrade: 'MEDIUM',
+        factors: [
+          { name: 'Spatial Proximity', score: 58, weight: 0.30, description: '7.2 km north of origin.', evidenceSummary: 'Separate container fairway', isPositiveIndicator: false },
+          { name: 'Temporal Correlation', score: 75, weight: 0.25, description: 'In vicinity during spill window.', evidenceSummary: 'Temporal overlap', isPositiveIndicator: true },
+          { name: 'Trajectory Consistency', score: 55, weight: 0.20, description: 'Inbound Vallarpadam container terminal course.', evidenceSummary: 'Standard fairway', isPositiveIndicator: false },
+          { name: 'Drift Vector Consistency', score: 50, weight: 0.15, description: 'Cross-current navigation.', evidenceSummary: 'Partial vector match', isPositiveIndicator: false },
+          { name: 'AIS Data Quality', score: 94, weight: 0.10, description: 'Continuous verified AIS tracking.', evidenceSummary: 'Clean signal', isPositiveIndicator: true }
+        ],
+        explainableSummary: ['Passed in parallel container fairway. Non-conclusive correlation.'],
+        aisDataQuality: { pingCount: 91, gapDetected: false, anomalousSpeedDrop: false, spoofingProbabilityPercent: 0.3 },
+        track: [
+          { timestamp: '2026-08-28T15:00:00Z', lat: 9.880, lng: 75.800, speedKts: 14.5, courseDeg: 72, headingDeg: 72, navStatus: 'Underway using engine' },
+          { timestamp: '2026-08-28T16:10:00Z', lat: 9.920, lng: 75.910, speedKts: 13.8, courseDeg: 71, headingDeg: 71, navStatus: 'Underway using engine' }
+        ]
+      }
+    ],
+    evidenceTimeline: [
+      { id: 'evt-kl1', timestamp: '2026-08-28T15:48:00Z', timeRelative: '-2h 22m', category: 'AIS', title: 'MT Malabar Express Enters Kochi SPM Corridor', description: 'Crude carrier passes within 750m of origin centroid at 12.1 kts.', severity: 'WARNING', vesselMmsi: '636018440' },
+      { id: 'evt-kl2', timestamp: '2026-08-28T18:10:00Z', timeRelative: '0h 00m', category: 'SATELLITE', title: 'Sentinel-1A SAR Detection (Kerala Waters)', description: 'Radar pass reveals 16.2 km² plume threatening Vembanad estuarine mouth.', severity: 'ALERT' },
+      { id: 'evt-kl3', timestamp: '2026-08-28T18:25:00Z', timeRelative: '+15m', category: 'CORRELATION', title: 'Attribution Matrix: MT Malabar Express (92%)', description: 'High correlation with Kochi refinery SPM approach trajectory.', severity: 'CRITICAL', vesselMmsi: '636018440' }
+    ],
+    isDemoData: true,
+    isSimulated: true,
+    lastUpdated: '2026-08-28T18:30:00Z'
+  },
+  {
+    id: 'inc-006',
+    incidentCode: 'OS-2026-006',
+    title: 'Lakshadweep Nine Degree Channel & Kavaratti Atoll Discharge',
+    region: 'Lakshadweep Sea',
+    subRegion: 'Nine Degree Channel & Kavaratti Marine Biosphere',
+    coordinates: { lat: 10.560, lng: 72.620 },
+    detectionTimestamp: '2026-08-28T21:45:00Z',
+    status: 'CONFIRMED_INVESTIGATION',
+    satellite: {
+      sensor: 'SENTINEL_1_SAR',
+      satelliteName: 'Sentinel-1C Synthetic Aperture Radar',
+      orbitPass: 'Descending',
+      resolutionMeters: 10,
+      polarization: 'VV + VH',
+      sceneId: 'S1C_IW_GRDH_1SDV_20260828T214510_048912_059E3C',
+      acquisitionTime: '2026-08-28T21:45:10Z',
+    },
+    detectionConfidence: 96,
+    slick: {
+      type: 'Polygon',
+      coordinates: [
+        [10.580, 72.590],
+        [10.610, 72.640],
+        [10.570, 72.670],
+        [10.530, 72.620],
+        [10.540, 72.580],
+        [10.580, 72.590],
+      ],
+      center: { lat: 10.560, lng: 72.620 },
+      areaKm2: 21.5,
+      perimeterKm: 23.4,
+      majorAxisKm: 7.9,
+      minorAxisKm: 3.4,
+      orientationDeg: 82,
+      estimatedThicknessUm: 45,
+      estimatedVolumeM3: 967,
+    },
+    characterization: {
+      spillType: 'Suspected Crude Oil Wash',
+      slickCategory: 'Continuous Dark Patch',
+      weatheringStage: 'Fresh Discharge',
+      estimatedSpillWindowStart: '2026-08-28T18:30:00Z',
+      estimatedSpillWindowEnd: '2026-08-28T19:50:00Z',
+    },
+    environmental: {
+      windSpeedKts: 16.5,
+      windDirectionDeg: 260,
+      currentSpeedKts: 1.10,
+      currentDirectionDeg: 85,
+      waveHeightM: 1.6,
+      seaState: 'Moderate to Rough',
+      seaSurfaceTempC: 29.8,
+      waterDensityKgM3: 1023.7,
+      tidePhase: 'Spring Tide Flow (+1.2m)',
+    },
+    drift: {
+      hindcastPoints: [
+        { hourOffset: 0, timestamp: '2026-08-28T21:45:00Z', lat: 10.560, lng: 72.620, uncertaintyRadiusKm: 0.4, windContributionKts: 0.50, currentContributionKts: 1.10, label: 'Observed Slick Center' },
+        { hourOffset: -1.8, timestamp: '2026-08-28T19:57:00Z', lat: 10.510, lng: 72.525, uncertaintyRadiusKm: 1.6, windContributionKts: 0.50, currentContributionKts: 1.10, label: 'Hindcast -1.8h' },
+        { hourOffset: -3.0, timestamp: '2026-08-28T18:45:00Z', lat: 10.470, lng: 72.445, uncertaintyRadiusKm: 2.8, windContributionKts: 0.49, currentContributionKts: 1.08, label: 'Probable Origin Zone' }
+      ],
+      probableOrigin: {
+        center: { lat: 10.470, lng: 72.445 },
+        uncertaintyRadiusKm: 3.4,
+        estimatedTime: '2026-08-28T18:30:00Z to 19:15:00Z',
+        confidencePercent: 91,
+        searchRadiusNm: 5.8,
+      },
+      forecastPoints: [
+        { hourOffset: 0, timestamp: '2026-08-28T21:45:00Z', lat: 10.560, lng: 72.620, uncertaintyRadiusKm: 0.4, windContributionKts: 0.50, currentContributionKts: 1.10 },
+        { hourOffset: 6, timestamp: '2026-08-29T03:45:00Z', lat: 10.645, lng: 72.760, uncertaintyRadiusKm: 3.4, windContributionKts: 0.51, currentContributionKts: 1.12, label: 'Forecast +6h' },
+        { hourOffset: 12, timestamp: '2026-08-29T09:45:00Z', lat: 10.730, lng: 72.900, uncertaintyRadiusKm: 6.8, windContributionKts: 0.52, currentContributionKts: 1.14, label: 'Forecast +12h' }
+      ],
+      coastalImpactRisk: {
+        willImpactCoast: true,
+        estimatedImpactTime: '2026-08-29T05:00:00Z',
+        nearestCoastlineKm: 6.8,
+        threatenedSensitiveZones: ['Kavaratti Island Coral Atoll & Lagoon', 'Suheli Par Marine Turtle Nesting Sanctuary', 'Agatti Reef Marine Biodiversity Zone'],
+      }
+    },
+    topCandidateMmsi: '538008710',
+    candidateVessels: [
+      {
+        mmsi: '538008710',
+        imo: '9651084',
+        vesselName: 'MT Coral Navigator',
+        callsign: 'V7XW',
+        vesselType: 'Crude Oil Tanker',
+        flag: 'Marshall Islands',
+        flagCode: 'MH',
+        lengthM: 333,
+        beamM: 60,
+        draughtM: 20.5,
+        destination: 'SINGAPORE',
+        eta: '2026-09-02T12:00:00Z',
+        currentPosition: { lat: 10.590, lng: 72.700 },
+        minDistanceToOriginKm: 0.68,
+        timeAtClosestApproach: '2026-08-28T18:50:00Z',
+        closestApproachDeltaHours: 0.08,
+        attributionScore: 94,
+        attributionRank: 1,
+        confidenceGrade: 'HIGH',
+        factors: [
+          { name: 'Spatial Proximity', score: 96, weight: 0.30, description: '680m from reconstructed discharge origin.', evidenceSummary: 'Critical spatial overlap', isPositiveIndicator: true },
+          { name: 'Temporal Correlation', score: 95, weight: 0.25, description: 'Transited origin point at 18:50 UTC.', evidenceSummary: 'Perfect temporal fit', isPositiveIndicator: true },
+          { name: 'Trajectory Consistency', score: 92, weight: 0.20, description: 'Course 084° in Nine Degree Channel matches plume axis.', evidenceSummary: 'Vector orientation match', isPositiveIndicator: true },
+          { name: 'Drift Vector Consistency', score: 94, weight: 0.15, description: 'Eastward equatorial drift perfectly aligns with track.', evidenceSummary: 'Hydrodynamic match', isPositiveIndicator: true },
+          { name: 'AIS Data Quality', score: 88, weight: 0.10, description: 'Continuous AIS tracking in international channel.', evidenceSummary: 'Solid AIS signal', isPositiveIndicator: true }
+        ],
+        explainableSummary: [
+          'VLCC Supertanker transited within 680m of origin centroid at 18:50 UTC in Nine Degree Channel.',
+          'Spill threatens highly vulnerable coral atolls of Kavaratti and Suheli Par.',
+          'Urgent coastal protection and international maritime notification required.'
+        ],
+        aisDataQuality: { pingCount: 104, gapDetected: false, anomalousSpeedDrop: false, spoofingProbabilityPercent: 0.5 },
+        track: [
+          { timestamp: '2026-08-28T17:00:00Z', lat: 10.380, lng: 72.180, speedKts: 15.2, courseDeg: 84, headingDeg: 84, navStatus: 'Underway using engine' },
+          { timestamp: '2026-08-28T18:50:00Z', lat: 10.475, lng: 72.450, speedKts: 14.8, courseDeg: 84, headingDeg: 84, navStatus: 'Underway using engine' },
+          { timestamp: '2026-08-28T20:30:00Z', lat: 10.550, lng: 72.680, speedKts: 15.0, courseDeg: 85, headingDeg: 85, navStatus: 'Underway using engine' }
+        ]
+      }
+    ],
+    evidenceTimeline: [
+      { id: 'evt-lk1', timestamp: '2026-08-28T18:50:00Z', timeRelative: '-2h 55m', category: 'AIS', title: 'MT Coral Navigator Transits Nine Degree Channel', description: 'VLCC Supertanker passes within 680m of reconstructed origin centroid.', severity: 'WARNING', vesselMmsi: '538008710' },
+      { id: 'evt-lk2', timestamp: '2026-08-28T21:45:00Z', timeRelative: '0h 00m', category: 'SATELLITE', title: 'Sentinel-1C SAR Ingestion (Lakshadweep Waters)', description: 'High-backscatter dampening indicates 21.5 km² slick approaching Kavaratti Atoll.', severity: 'ALERT' },
+      { id: 'evt-lk3', timestamp: '2026-08-28T22:00:00Z', timeRelative: '+15m', category: 'CORRELATION', title: 'Attribution Score 94% Generated for MT Coral Navigator', description: 'Highest correlation recorded in Nine Degree Channel transit lane.', severity: 'CRITICAL', vesselMmsi: '538008710' }
+    ],
+    isDemoData: true,
+    isSimulated: true,
+    lastUpdated: '2026-08-28T22:05:00Z'
+  },
+  {
+    id: 'inc-007',
+    incidentCode: 'OS-2026-007',
+    title: 'Andaman-Nicobar Six Degree Channel Malacca Gateway Plume',
+    region: 'Andaman & Nicobar (Andaman Sea)',
+    subRegion: 'Great Nicobar Six Degree Channel (Malacca Gateway)',
+    coordinates: { lat: 6.920, lng: 93.750 },
+    detectionTimestamp: '2026-08-29T02:30:00Z',
+    status: 'CONFIRMED_INVESTIGATION',
+    satellite: {
+      sensor: 'SENTINEL_1_SAR',
+      satelliteName: 'Sentinel-1C Synthetic Aperture Radar',
+      orbitPass: 'Ascending',
+      resolutionMeters: 10,
+      polarization: 'VV + VH',
+      sceneId: 'S1C_IW_GRDH_1SDV_20260829T023018_052340_064B11',
+      acquisitionTime: '2026-08-29T02:30:18Z',
+    },
+    detectionConfidence: 97,
+    slick: {
+      type: 'Polygon',
+      coordinates: [
+        [6.950, 93.710],
+        [6.980, 93.770],
+        [6.930, 93.810],
+        [6.890, 93.760],
+        [6.900, 93.700],
+        [6.950, 93.710],
+      ],
+      center: { lat: 6.920, lng: 93.750 },
+      areaKm2: 26.8,
+      perimeterKm: 28.6,
+      majorAxisKm: 9.2,
+      minorAxisKm: 3.8,
+      orientationDeg: 72,
+      estimatedThicknessUm: 50,
+      estimatedVolumeM3: 1340,
+    },
+    characterization: {
+      spillType: 'Suspected Mineral Heavy Fuel Oil',
+      slickCategory: 'Continuous Dark Patch',
+      weatheringStage: 'Fresh Discharge',
+      estimatedSpillWindowStart: '2026-08-28T23:15:00Z',
+      estimatedSpillWindowEnd: '2026-08-29T00:45:00Z',
+    },
+    environmental: {
+      windSpeedKts: 18.0,
+      windDirectionDeg: 245,
+      currentSpeedKts: 1.25,
+      currentDirectionDeg: 65,
+      waveHeightM: 1.8,
+      seaState: 'Rough (Beaufort 5)',
+      seaSurfaceTempC: 30.2,
+      waterDensityKgM3: 1023.2,
+      tidePhase: 'Equatorial Flow (+1.6m)',
+    },
+    drift: {
+      hindcastPoints: [
+        { hourOffset: 0, timestamp: '2026-08-29T02:30:00Z', lat: 6.920, lng: 93.750, uncertaintyRadiusKm: 0.4, windContributionKts: 0.54, currentContributionKts: 1.25, label: 'Observed Slick Center' },
+        { hourOffset: -1.8, timestamp: '2026-08-29T00:42:00Z', lat: 6.860, lng: 93.640, uncertaintyRadiusKm: 1.7, windContributionKts: 0.54, currentContributionKts: 1.25, label: 'Hindcast -1.8h' },
+        { hourOffset: -3.2, timestamp: '2026-08-28T23:18:00Z', lat: 6.810, lng: 93.535, uncertaintyRadiusKm: 3.1, windContributionKts: 0.53, currentContributionKts: 1.22, label: 'Probable Origin Zone' }
+      ],
+      probableOrigin: {
+        center: { lat: 6.810, lng: 93.535 },
+        uncertaintyRadiusKm: 3.8,
+        estimatedTime: '2026-08-28T23:15:00Z to 00:05:00Z',
+        confidencePercent: 93,
+        searchRadiusNm: 6.8,
+      },
+      forecastPoints: [
+        { hourOffset: 0, timestamp: '2026-08-29T02:30:00Z', lat: 6.920, lng: 93.750, uncertaintyRadiusKm: 0.4, windContributionKts: 0.54, currentContributionKts: 1.25 },
+        { hourOffset: 6, timestamp: '2026-08-29T08:30:00Z', lat: 7.020, lng: 93.910, uncertaintyRadiusKm: 3.8, windContributionKts: 0.55, currentContributionKts: 1.28, label: 'Forecast +6h' },
+        { hourOffset: 12, timestamp: '2026-08-29T14:30:00Z', lat: 7.120, lng: 94.070, uncertaintyRadiusKm: 7.4, windContributionKts: 0.56, currentContributionKts: 1.30, label: 'Forecast +12h' }
+      ],
+      coastalImpactRisk: {
+        willImpactCoast: true,
+        estimatedImpactTime: '2026-08-29T10:00:00Z',
+        nearestCoastlineKm: 14.2,
+        threatenedSensitiveZones: ['Great Nicobar Biosphere Reserve', 'Galathea National Park (Leatherback Turtle Sanctuary)', 'Campbell Bay Marine Coral Zone'],
+      }
+    },
+    topCandidateMmsi: '563009220',
+    candidateVessels: [
+      {
+        mmsi: '563009220',
+        imo: '9783410',
+        vesselName: 'MV Andaman Voyager',
+        callsign: '9V881',
+        vesselType: 'Container Ship',
+        flag: 'Singapore',
+        flagCode: 'SG',
+        lengthM: 399,
+        beamM: 59,
+        draughtM: 16.0,
+        destination: 'PORT KLANG',
+        eta: '2026-08-29T22:00:00Z',
+        currentPosition: { lat: 6.960, lng: 93.840 },
+        minDistanceToOriginKm: 0.82,
+        timeAtClosestApproach: '2026-08-28T23:35:00Z',
+        closestApproachDeltaHours: 0.1,
+        attributionScore: 93,
+        attributionRank: 1,
+        confidenceGrade: 'HIGH',
+        factors: [
+          { name: 'Spatial Proximity', score: 95, weight: 0.30, description: '820m from hindcast origin centroid in Six Degree Channel.', evidenceSummary: 'Close channel transit', isPositiveIndicator: true },
+          { name: 'Temporal Correlation', score: 94, weight: 0.25, description: 'Transit timing perfectly inside estimated release window.', evidenceSummary: 'Delta < 10 mins', isPositiveIndicator: true },
+          { name: 'Trajectory Consistency', score: 92, weight: 0.20, description: 'East-northeast course 072° directly aligns with slick path.', evidenceSummary: 'Vector orientation match', isPositiveIndicator: true },
+          { name: 'Drift Vector Consistency', score: 93, weight: 0.15, description: 'Strong equatorial current vector supports backward track.', evidenceSummary: 'Ocean model alignment', isPositiveIndicator: true },
+          { name: 'AIS Data Quality', score: 90, weight: 0.10, description: 'High-integrity satellite-AIS feed in deep water corridor.', evidenceSummary: 'Clean satellite AIS', isPositiveIndicator: true }
+        ],
+        explainableSummary: [
+          'Ultra Large Container Vessel transited within 820m of origin centroid at 23:35 UTC entering Malacca Strait.',
+          'Plume is 26.8 km² in area and threatens Great Nicobar Biosphere Reserve & Galathea National Park.',
+          'International notice issued to Singapore PSC and Indian Coast Guard A&N Command.'
+        ],
+        aisDataQuality: { pingCount: 112, gapDetected: false, anomalousSpeedDrop: false, spoofingProbabilityPercent: 0.6 },
+        track: [
+          { timestamp: '2026-08-28T21:30:00Z', lat: 6.680, lng: 93.280, speedKts: 19.5, courseDeg: 72, headingDeg: 72, navStatus: 'Underway using engine' },
+          { timestamp: '2026-08-28T23:35:00Z', lat: 6.815, lng: 93.540, speedKts: 19.1, courseDeg: 72, headingDeg: 72, navStatus: 'Underway using engine' },
+          { timestamp: '2026-08-29T01:45:00Z', lat: 6.930, lng: 93.780, speedKts: 18.8, courseDeg: 73, headingDeg: 73, navStatus: 'Underway using engine' }
+        ]
+      },
+      {
+        mmsi: '352994000',
+        imo: '9458902',
+        vesselName: 'MT Nicobar Pearl',
+        callsign: '3FYQ',
+        vesselType: 'Crude Oil Tanker',
+        flag: 'Panama',
+        flagCode: 'PA',
+        lengthM: 250,
+        beamM: 44,
+        draughtM: 14.8,
+        destination: 'SINGAPORE',
+        eta: '2026-08-30T06:00:00Z',
+        currentPosition: { lat: 6.780, lng: 93.920 },
+        minDistanceToOriginKm: 9.8,
+        timeAtClosestApproach: '2026-08-29T00:15:00Z',
+        closestApproachDeltaHours: 0.65,
+        attributionScore: 52,
+        attributionRank: 2,
+        confidenceGrade: 'MEDIUM',
+        factors: [
+          { name: 'Spatial Proximity', score: 50, weight: 0.30, description: '9.8 km south of origin.', evidenceSummary: 'Peripheral lane', isPositiveIndicator: false },
+          { name: 'Temporal Correlation', score: 70, weight: 0.25, description: 'In vicinity during spill period.', evidenceSummary: 'Moderate temporal match', isPositiveIndicator: true },
+          { name: 'Trajectory Consistency', score: 52, weight: 0.20, description: 'Eastbound heading.', evidenceSummary: 'Parallel course', isPositiveIndicator: false },
+          { name: 'Drift Vector Consistency', score: 46, weight: 0.15, description: 'Cross-current offset.', evidenceSummary: 'Low vector match', isPositiveIndicator: false },
+          { name: 'AIS Data Quality', score: 92, weight: 0.10, description: 'Continuous AIS.', evidenceSummary: 'Clean stream', isPositiveIndicator: true }
+        ],
+        explainableSummary: ['Passed in secondary south channel. Excluded from primary attribution.'],
+        aisDataQuality: { pingCount: 88, gapDetected: false, anomalousSpeedDrop: false, spoofingProbabilityPercent: 0.4 },
+        track: [
+          { timestamp: '2026-08-28T22:30:00Z', lat: 6.650, lng: 93.420, speedKts: 14.2, courseDeg: 78, headingDeg: 78, navStatus: 'Underway using engine' },
+          { timestamp: '2026-08-29T00:15:00Z', lat: 6.720, lng: 93.680, speedKts: 14.0, courseDeg: 77, headingDeg: 77, navStatus: 'Underway using engine' }
+        ]
+      }
+    ],
+    evidenceTimeline: [
+      { id: 'evt-an1', timestamp: '2026-08-28T23:35:00Z', timeRelative: '-2h 55m', category: 'AIS', title: 'MV Andaman Voyager Transits Six Degree Channel', description: 'Ultra Large Container Ship passes within 820m of origin centroid at 19.1 kts.', severity: 'WARNING', vesselMmsi: '563009220' },
+      { id: 'evt-an2', timestamp: '2026-08-29T02:30:00Z', timeRelative: '0h 00m', category: 'SATELLITE', title: 'Sentinel-1C SAR Ingestion (Andaman-Nicobar)', description: 'Critical 26.8 km² slick identified entering Great Nicobar Biosphere zone.', severity: 'ALERT' },
+      { id: 'evt-an3', timestamp: '2026-08-29T02:45:00Z', timeRelative: '+15m', category: 'CORRELATION', title: 'Attribution Matrix Generated: MV Andaman Voyager (93%)', description: 'Highest correlation in Malacca Western Approaches.', severity: 'CRITICAL', vesselMmsi: '563009220' }
+    ],
+    isDemoData: true,
+    isSimulated: true,
+    lastUpdated: '2026-08-29T02:50:00Z'
   }
 ];
 
@@ -907,6 +1537,70 @@ export const MOCK_ALERTS: AlertItem[] = [
     isRead: false,
     attributionCandidate: 'MV Ocean Star',
     attributionScore: 91
+  },
+  {
+    id: 'alt-05',
+    incidentId: 'inc-006',
+    incidentCode: 'OS-2026-006',
+    title: 'Critical Threat: Kavaratti Coral Atoll & Nine Degree Channel (94%)',
+    category: 'COASTAL_RISK',
+    severity: 'CRITICAL',
+    timestamp: '2026-08-28T22:00:00Z',
+    location: 'Lakshadweep Sea (10.56°N, 72.62°E)',
+    coordinates: { lat: 10.560, lng: 72.620 },
+    summary: '21.5 km² slick from MT Coral Navigator approaching Kavaratti lagoon and Suheli Par turtle sanctuary within 7 hours.',
+    recommendedAction: 'Dispatch Coast Guard pollution response vessel (ICGS Samudra Prahari) with containment booms.',
+    isRead: false,
+    attributionCandidate: 'MT Coral Navigator',
+    attributionScore: 94
+  },
+  {
+    id: 'alt-06',
+    incidentId: 'inc-007',
+    incidentCode: 'OS-2026-007',
+    title: 'Great Nicobar Biosphere Reserve Impact Alert (93%)',
+    category: 'COASTAL_RISK',
+    severity: 'CRITICAL',
+    timestamp: '2026-08-29T02:45:00Z',
+    location: 'Andaman & Nicobar (6.92°N, 93.75°E)',
+    coordinates: { lat: 6.920, lng: 93.750 },
+    summary: 'High volume 26.8 km² slick in Six Degree Channel entering Malacca approaches; MV Andaman Voyager attributed 93%.',
+    recommendedAction: 'Alert Andaman & Nicobar Command (ANC) and Singapore Port State Control.',
+    isRead: false,
+    attributionCandidate: 'MV Andaman Voyager',
+    attributionScore: 93
+  },
+  {
+    id: 'alt-07',
+    incidentId: 'inc-005',
+    incidentCode: 'OS-2026-005',
+    title: 'Kerala Coast: Kochi SPM Crude Tanker Spill (92%)',
+    category: 'HIGH_ATTRIBUTION',
+    severity: 'HIGH',
+    timestamp: '2026-08-28T18:25:00Z',
+    location: 'Kerala Coast (9.94°N, 75.98°E)',
+    coordinates: { lat: 9.940, lng: 75.980 },
+    summary: '16.2 km² plume identified in Kochi Single Point Mooring channel; MT Malabar Express attributed 92%.',
+    recommendedAction: 'Initiate joint inspection with Cochin Port Trust & Kerala State Pollution Control Board.',
+    isRead: false,
+    attributionCandidate: 'MT Malabar Express',
+    attributionScore: 92
+  },
+  {
+    id: 'alt-08',
+    incidentId: 'inc-004',
+    incidentCode: 'OS-2026-004',
+    title: 'Goa Mormugao Port Approach Heavy Fuel Spill (89%)',
+    category: 'HIGH_ATTRIBUTION',
+    severity: 'HIGH',
+    timestamp: '2026-08-28T16:30:00Z',
+    location: 'Goa Coast (15.42°N, 73.68°E)',
+    coordinates: { lat: 15.420, lng: 73.680 },
+    summary: '14.8 km² slick heading toward Mormugao harbor and Grand Island reef; MV Goa Pioneer attributed 89%.',
+    recommendedAction: 'Deploy Mormugao Port emergency skimmers and notify Goa State Disaster Management.',
+    isRead: false,
+    attributionCandidate: 'MV Goa Pioneer',
+    attributionScore: 89
   },
   {
     id: 'alt-02',
@@ -953,8 +1647,8 @@ export const MOCK_ALERTS: AlertItem[] = [
 ];
 
 // Persistent state wrapper
-const STORAGE_KEY_INCIDENTS = 'oceaneye_incidents_v1';
-const STORAGE_KEY_ALERTS = 'oceaneye_alerts_v1';
+const STORAGE_KEY_INCIDENTS = 'oceaneye_incidents_v2';
+const STORAGE_KEY_ALERTS = 'oceaneye_alerts_v2';
 
 export class OceanEyeDataService {
   private incidents: Incident[];
@@ -969,7 +1663,10 @@ export class OceanEyeDataService {
     try {
       const stored = localStorage.getItem(STORAGE_KEY_INCIDENTS);
       if (stored) {
-        return JSON.parse(stored);
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length >= MOCK_INCIDENTS.length) {
+          return parsed;
+        }
       }
     } catch {
       // ignore
@@ -981,7 +1678,10 @@ export class OceanEyeDataService {
     try {
       const stored = localStorage.getItem(STORAGE_KEY_ALERTS);
       if (stored) {
-        return JSON.parse(stored);
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length >= MOCK_ALERTS.length) {
+          return parsed;
+        }
       }
     } catch {
       // ignore

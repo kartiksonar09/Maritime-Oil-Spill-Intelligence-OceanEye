@@ -211,7 +211,7 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
       </div>
 
       {/* Main Map + Right Side Panel Bento Grid (12 cols) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Left 8 Cols: Interactive Maritime GIS Map Bento Tile */}
         <div className="lg:col-span-8 bento-card p-5 space-y-4">
           <div className="flex items-center justify-between">
@@ -236,7 +236,7 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
               incident={currentIncident}
               selectedVessel={selectedMapVessel}
               onSelectVessel={handleVesselClick}
-              className="h-[520px]"
+              className="h-[480px] xl:h-[520px]"
             />
           </div>
 
@@ -286,8 +286,8 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
               </button>
             </div>
 
-            {/* Candidate Vessels List */}
-            <div className="space-y-3">
+            {/* Candidate Vessels List with Scrollbar */}
+            <div className="space-y-3 max-h-[360px] overflow-y-auto pr-1.5">
               {currentIncident.candidateVessels.map(vessel => {
                 const isSelected = selectedMapVessel?.mmsi === vessel.mmsi;
                 const isRankOne = vessel.attributionRank === 1;
@@ -396,14 +396,19 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
       </div>
 
       {/* Bottom Row: Recent Incidents Table & Tactical Alerts Bento Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 pt-2">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 pt-2 items-start">
         {/* Recent Incidents (8 cols) Bento Tile */}
         <div className="lg:col-span-8 bento-card p-5 space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+            <div className="flex items-center gap-2">
               <Radar className="w-4 h-4 text-cyan-400" />
-              Active Surveillance Incidents
-            </h3>
+              <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+                Active Surveillance Incidents
+              </h3>
+              <span className="px-2 py-0.5 rounded-full text-[10px] bg-cyan-950 text-cyan-400 border border-cyan-800 font-mono">
+                {incidents.length} Regions Active
+              </span>
+            </div>
             <button
               onClick={() => onNavigateTab('incidents')}
               className="text-xs text-cyan-400 hover:underline font-semibold"
@@ -412,19 +417,19 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
             </button>
           </div>
 
-          <div className="overflow-x-auto rounded-2xl border border-neutral-800">
+          <div className="overflow-x-auto max-h-[350px] overflow-y-auto rounded-2xl border border-neutral-800">
             <table className="w-full text-left text-xs">
-              <thead className="bg-neutral-950 text-neutral-400 font-bold uppercase text-[10px] border-b border-neutral-800">
+              <thead className="bg-neutral-950 text-neutral-400 font-bold uppercase text-[10px] border-b border-neutral-800 sticky top-0 z-10">
                 <tr>
-                  <th className="py-3 px-3.5">Incident ID</th>
-                  <th className="py-3 px-3.5">Location</th>
-                  <th className="py-3 px-3.5">Detection Time</th>
-                  <th className="py-3 px-3.5">Area (km²)</th>
-                  <th className="py-3 px-3.5">Confidence</th>
-                  <th className="py-3 px-3.5">Top Suspect</th>
-                  <th className="py-3 px-3.5">Score</th>
-                  <th className="py-3 px-3.5">Status</th>
-                  <th className="py-3 px-3.5 text-right">Action</th>
+                  <th className="py-3 px-3.5 bg-neutral-950">Incident ID</th>
+                  <th className="py-3 px-3.5 bg-neutral-950">Location</th>
+                  <th className="py-3 px-3.5 bg-neutral-950">Detection Time</th>
+                  <th className="py-3 px-3.5 bg-neutral-950">Area (km²)</th>
+                  <th className="py-3 px-3.5 bg-neutral-950">Confidence</th>
+                  <th className="py-3 px-3.5 bg-neutral-950">Top Suspect</th>
+                  <th className="py-3 px-3.5 bg-neutral-950">Score</th>
+                  <th className="py-3 px-3.5 bg-neutral-950">Status</th>
+                  <th className="py-3 px-3.5 bg-neutral-950 text-right">Action</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-neutral-800/80">
@@ -494,8 +499,8 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
             </button>
           </div>
 
-          <div className="space-y-3">
-            {alerts.slice(0, 3).map(alert => (
+          <div className="space-y-3 max-h-[350px] overflow-y-auto pr-1.5">
+            {alerts.map(alert => (
               <div
                 key={alert.id}
                 className={`p-3.5 rounded-2xl border text-xs space-y-1.5 transition-all ${

@@ -94,9 +94,12 @@ export const IncidentLogbook: React.FC<IncidentLogbookProps> = ({
             onChange={e => setFilterRegion(e.target.value)}
             className="bg-black/60 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-white focus:border-cyan-500 outline-none"
           >
-            <option value="ALL">All Maritime Zones</option>
-            <option value="Arabian Sea">Arabian Sea</option>
-            <option value="Bay of Bengal">Bay of Bengal</option>
+            <option value="ALL">All Maritime Zones ({incidents.length})</option>
+            {Array.from(new Set(incidents.map(i => i.region))).map(region => (
+              <option key={region} value={region}>
+                {region}
+              </option>
+            ))}
           </select>
         </div>
       </div>
