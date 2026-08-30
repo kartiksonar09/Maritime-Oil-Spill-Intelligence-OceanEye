@@ -3,7 +3,7 @@
  * Command center with maritime map, KPI summary cards, candidate attribution, and alert stream
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Incident, AISVessel, AlertItem } from '../../types';
 import { MaritimeMap } from '../map/MaritimeMap';
 import {
@@ -47,7 +47,16 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
     currentIncident.candidateVessels[0] || null
   );
 
+  useEffect(() => {
+    if (currentIncident.candidateVessels.length > 0) {
+      setSelectedMapVessel(currentIncident.candidateVessels[0]);
+    } else {
+      setSelectedMapVessel(null);
+    }
+  }, [currentIncident.id]);
+
   const topVessel = currentIncident.candidateVessels.find(v => v.attributionRank === 1);
+  const activeVesselForExplainer = selectedMapVessel || topVessel || currentIncident.candidateVessels[0] || null;
   const totalSlickArea = incidents.reduce((acc, inc) => acc + inc.slick.areaKm2, 0).toFixed(1);
   const totalVesselsTracked = incidents.reduce((acc, inc) => acc + inc.candidateVessels.length, 0);
 
@@ -212,7 +221,7 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
 
       {/* Main Map + Right Side Panel Bento Grid (12 cols) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        {/* Left 8 Cols: Interactive Maritime GIS Map Bento Tile */}
+        {/* Left 8 Cols: Interactive Maritime GIS Map Bento Tile (Preserved natural, uninflated height) */}
         <div className="lg:col-span-8 bento-card p-5 space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2.5">
@@ -231,12 +240,12 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
             </button>
           </div>
 
-          <div className="rounded-2xl overflow-hidden border border-neutral-800">
+          <div className="rounded-2xl overflow-hidden border border-neutral-800 relative">
             <MaritimeMap
               incident={currentIncident}
               selectedVessel={selectedMapVessel}
               onSelectVessel={handleVesselClick}
-              className="h-[480px] xl:h-[520px]"
+              className="w-full h-[390px] xl:h-[415px]"
             />
           </div>
 
@@ -269,11 +278,11 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
           </div>
         </div>
 
-        {/* Right 4 Cols: Ranked Candidate Vessels & Attribution Explainer Bento Tile */}
-        <div className="lg:col-span-4 space-y-5">
-          {/* Header */}
-          <div className="bento-card p-5 space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-neutral-800">
+        {/* Right 4 Cols: Ranked Candidate Vessels & Attribution Explainer Bento Column (Matched to GIS height with scrollbar) */}
+        <div className="lg:col-span-4 lg:h-[545px] xl:h-[570px] flex flex-col space-y-4 overflow-y-auto custom-scrollbar pr-1">
+          {/* Candidate Vessels Ranking Card */}
+          <div className="bento-card p-4.5 space-y-3 shrink-0">
+            <div className="flex items-center justify-between pb-2 border-b border-neutral-800">
               <h2 className="text-sm font-bold uppercase tracking-wider text-neutral-100 flex items-center gap-2">
                 <Ship className="w-4 h-4 text-rose-400" />
                 Candidate Vessels Ranking
@@ -286,8 +295,8 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
               </button>
             </div>
 
-            {/* Candidate Vessels List with Scrollbar */}
-            <div className="space-y-3 max-h-[360px] overflow-y-auto pr-1.5">
+            {/* Candidate Vessels List with custom scrollbar */}
+            <div className="max-h-[220px] overflow-y-auto space-y-2.5 pr-1.5 custom-scrollbar">
               {currentIncident.candidateVessels.map(vessel => {
                 const isSelected = selectedMapVessel?.mmsi === vessel.mmsi;
                 const isRankOne = vessel.attributionRank === 1;
@@ -296,7 +305,7 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
                   <div
                     key={vessel.mmsi}
                     onClick={() => handleVesselClick(vessel)}
-                    className={`p-4 rounded-2xl border transition-all cursor-pointer ${
+                    className={`p-3.5 rounded-2xl border transition-all cursor-pointer ${
                       isSelected
                         ? 'bg-neutral-900 border-cyan-500 ring-1 ring-cyan-500/50 shadow-lg'
                         : isRankOne
@@ -333,7 +342,7 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
                     </div>
 
                     {/* Proximity and Approach metric */}
-                    <div className="grid grid-cols-2 gap-2 mt-3 pt-2.5 border-t border-neutral-800 text-[11px] text-neutral-300">
+                    <div className="grid grid-cols-2 gap-2 mt-2.5 pt-2 border-t border-neutral-800 text-[11px] text-neutral-300">
                       <div>
                         <span className="text-neutral-400">Closest Approach:</span>{' '}
                         <strong className="text-white">{vessel.minDistanceToOriginKm} km</strong>
@@ -345,7 +354,7 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
                     </div>
 
                     {/* Highlight factor */}
-                    <div className="mt-2.5 text-[11px] text-neutral-300 bg-neutral-950/80 p-2.5 rounded-xl border border-neutral-800/80 flex items-start gap-1.5">
+                    <div className="mt-2 text-[11px] text-neutral-300 bg-neutral-950/80 p-2 rounded-xl border border-neutral-800/80 flex items-start gap-1.5">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
                       <span className="line-clamp-2">{vessel.explainableSummary[0]}</span>
                     </div>
@@ -356,20 +365,20 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
           </div>
 
           {/* Selected Vessel Deep Explainability Bento Tile */}
-          {selectedMapVessel && (
-            <div className="bento-card p-5 space-y-3.5">
+          {activeVesselForExplainer && (
+            <div className="bento-card p-4.5 space-y-3 shrink-0">
               <div className="flex items-center justify-between pb-2 border-b border-neutral-800">
                 <span className="text-xs font-bold text-white flex items-center gap-1.5">
                   <ShieldAlert className="w-4 h-4 text-rose-400" />
-                  Why {selectedMapVessel.vesselName}?
+                  Why {activeVesselForExplainer.vesselName}?
                 </span>
-                <span className="text-[10px] text-neutral-400 font-mono">Rank #{selectedMapVessel.attributionRank}</span>
+                <span className="text-[10px] text-neutral-400 font-mono">Rank #{activeVesselForExplainer.attributionRank}</span>
               </div>
 
               {/* Attribution Factor Mini Gauges */}
-              <div className="space-y-2.5 text-xs">
-                {selectedMapVessel.factors.map(factor => (
-                  <div key={factor.name} className="space-y-1">
+              <div className="space-y-2 text-xs">
+                {activeVesselForExplainer.factors.map(factor => (
+                  <div key={factor.name} className="space-y-0.5">
                     <div className="flex items-center justify-between text-[11px]">
                       <span className="text-neutral-300">{factor.name}</span>
                       <span className="font-bold text-white font-mono">{factor.score}/100</span>
@@ -387,8 +396,8 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
               </div>
 
               {/* Legal Disclaimer */}
-              <p className="text-[10px] text-neutral-400 italic bg-neutral-950 p-2.5 rounded-xl border border-neutral-800/90 leading-tight">
-                * Note: Attribution scores represent probabilistic spatial-temporal correlation based on available SAR & AIS feeds, not definitive legal proof of liability.
+              <p className="text-[10px] text-neutral-400 italic bg-neutral-950 p-2 rounded-xl border border-neutral-800/90 leading-tight">
+                * Note: Attribution scores represent probabilistic spatial-temporal correlation based on available SAR & AIS feeds.
               </p>
             </div>
           )}
@@ -396,10 +405,10 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
       </div>
 
       {/* Bottom Row: Recent Incidents Table & Tactical Alerts Bento Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 pt-2 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 pt-2 items-stretch">
         {/* Recent Incidents (8 cols) Bento Tile */}
-        <div className="lg:col-span-8 bento-card p-5 space-y-4">
-          <div className="flex items-center justify-between">
+        <div className="lg:col-span-8 bento-card p-5 flex flex-col h-full space-y-3.5">
+          <div className="flex items-center justify-between shrink-0">
             <div className="flex items-center gap-2">
               <Radar className="w-4 h-4 text-cyan-400" />
               <h3 className="text-sm font-bold text-white uppercase tracking-wider">
@@ -417,7 +426,7 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
             </button>
           </div>
 
-          <div className="overflow-x-auto max-h-[350px] overflow-y-auto rounded-2xl border border-neutral-800">
+          <div className="flex-1 min-h-0 overflow-x-auto max-h-[350px] overflow-y-auto rounded-2xl border border-neutral-800 custom-scrollbar">
             <table className="w-full text-left text-xs">
               <thead className="bg-neutral-950 text-neutral-400 font-bold uppercase text-[10px] border-b border-neutral-800 sticky top-0 z-10">
                 <tr>
@@ -485,8 +494,8 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
         </div>
 
         {/* Priority Alerts Bento Tile (4 cols) */}
-        <div className="lg:col-span-4 bento-card p-5 space-y-4">
-          <div className="flex items-center justify-between">
+        <div className="lg:col-span-4 bento-card p-5 flex flex-col h-full space-y-3.5">
+          <div className="flex items-center justify-between shrink-0">
             <h3 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
               <AlertTriangle className="w-4 h-4 text-amber-400" />
               Priority Alerts Stream
@@ -499,7 +508,7 @@ export const MainDashboard: React.FC<MainDashboardProps> = ({
             </button>
           </div>
 
-          <div className="space-y-3 max-h-[350px] overflow-y-auto pr-1.5">
+          <div className="flex-1 min-h-0 space-y-3 max-h-[350px] overflow-y-auto pr-1.5 custom-scrollbar">
             {alerts.map(alert => (
               <div
                 key={alert.id}

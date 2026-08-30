@@ -133,20 +133,31 @@ export const MaritimeMap: React.FC<MaritimeMapProps> = ({
 
         mapInstanceRef.current = map;
       }
+
+      // Handle dynamic resize
+      const resizeObserver = new ResizeObserver(() => {
+        if (mapInstanceRef.current) {
+          mapInstanceRef.current.invalidateSize();
+        }
+      });
+      if (mapContainerRef.current) {
+        resizeObserver.observe(mapContainerRef.current);
+      }
+
+      return () => {
+        resizeObserver.disconnect();
+        if (mapInstanceRef.current) {
+          try {
+            mapInstanceRef.current.remove();
+          } catch (removeErr) {
+            console.warn('Map cleanup notice:', removeErr);
+          }
+          mapInstanceRef.current = null;
+        }
+      };
     } catch (err) {
       console.error('Maritime map initialization error:', err);
     }
-
-    return () => {
-      if (mapInstanceRef.current) {
-        try {
-          mapInstanceRef.current.remove();
-        } catch (removeErr) {
-          console.warn('Map cleanup notice:', removeErr);
-        }
-        mapInstanceRef.current = null;
-      }
-    };
   }, []);
 
   // Update Base Tile Layer
