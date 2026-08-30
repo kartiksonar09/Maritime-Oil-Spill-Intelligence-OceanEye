@@ -173,25 +173,57 @@ export const MaritimeMap: React.FC<MaritimeMapProps> = ({
         }
       });
 
-      let tileUrl = '';
-      let attribution = '';
-
       if (mapStyle === 'dark') {
-        tileUrl = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
-        attribution = '&copy; <a href="https://carto.com/">CARTO</a> &copy; OpenStreetMap contributors';
+        // High-contrast tactical dark canvas without watermarks
+        const darkBase = L.tileLayer(
+          'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}',
+          {
+            attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
+            maxNativeZoom: 16,
+            maxZoom: 18
+          }
+        );
+        const darkRef = L.tileLayer(
+          'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}',
+          {
+            attribution: '',
+            maxNativeZoom: 16,
+            maxZoom: 18
+          }
+        );
+        darkBase.addTo(map);
+        darkRef.addTo(map);
       } else if (mapStyle === 'satellite') {
-        tileUrl = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}';
-        attribution = 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community';
+        // High-resolution satellite imagery
+        L.tileLayer(
+          'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+          {
+            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, Maxar, Earthstar Geographics',
+            maxNativeZoom: 18,
+            maxZoom: 19
+          }
+        ).addTo(map);
       } else {
-        tileUrl = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
-        attribution = '&copy; <a href="https://carto.com/">CARTO</a>';
+        // High-definition Nautical Light (Ocean bathymetry & marine chart base)
+        const oceanBase = L.tileLayer(
+          'https://server.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}',
+          {
+            attribution: 'Tiles &copy; Esri &mdash; GEBCO, NOAA, CHS, National Geographic',
+            maxNativeZoom: 13,
+            maxZoom: 18
+          }
+        );
+        const oceanRef = L.tileLayer(
+          'https://server.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Reference/MapServer/tile/{z}/{y}/{x}',
+          {
+            attribution: '',
+            maxNativeZoom: 13,
+            maxZoom: 18
+          }
+        );
+        oceanBase.addTo(map);
+        oceanRef.addTo(map);
       }
-
-      L.tileLayer(tileUrl, {
-        attribution,
-        maxZoom: 18,
-        subdomains: 'abcd'
-      }).addTo(map);
     } catch (tileErr) {
       console.warn('Base tile layer switch warning:', tileErr);
     }
