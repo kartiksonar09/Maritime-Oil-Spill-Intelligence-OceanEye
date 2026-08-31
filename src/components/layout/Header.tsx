@@ -61,10 +61,10 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
           <div className="flex flex-col justify-center">
             <h1 className="font-black text-base sm:text-lg tracking-tight text-white leading-tight">
-              Maritime Oil Spill Intelligence
+              SpillTrace AI
             </h1>
             <p className="text-[11px] text-neutral-400 font-medium leading-tight mt-0.5">
-              AI Oil Spill Detection & Vessel Attribution
+              AI Powered Maritime Oil Spill Detection & Vessel Attribution
             </p>
           </div>
         </div>

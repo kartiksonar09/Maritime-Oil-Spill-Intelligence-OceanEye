@@ -552,164 +552,166 @@ export const MaritimeMap: React.FC<MaritimeMapProps> = ({
       {/* Map Target */}
       <div ref={mapContainerRef} className="w-full h-full" />
 
-      {/* Tactical HUD Header */}
+      {/* Tactical Map Header & Controls Overlay (Unified & Non-overlapping) */}
       {enableControls && (
-        <div className="absolute top-3 left-3 z-[400] flex items-center gap-2 bg-slate-900/90 backdrop-blur-md border border-slate-700/80 px-3 py-1.5 rounded-lg shadow-lg text-xs">
-          <div className="flex items-center gap-1.5 text-cyan-400 font-semibold uppercase tracking-wider text-[11px]">
-            <Compass className="w-4 h-4 animate-spin text-cyan-400" style={{ animationDuration: '12s' }} />
-            <span>Maritime GIS Engine</span>
-          </div>
-          <span className="text-slate-600">|</span>
-          <span className="text-slate-300 font-mono text-[11px]">
-            {cursorCoords ? `${cursorCoords.lat}°N, ${cursorCoords.lng}°E` : `${incident.coordinates.lat.toFixed(4)}°N, ${incident.coordinates.lng.toFixed(4)}°E`}
-          </span>
-          <span className="text-slate-600">|</span>
-          <span className="text-emerald-400 font-medium text-[11px] flex items-center gap-1">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            AIS Live Feed
-          </span>
-        </div>
-      )}
-
-      {/* Tactical Map Controls & Layer Selector */}
-      {enableControls && (
-        <div className="absolute top-3 right-3 z-[400] flex flex-col gap-2 items-end">
-          <div className="flex items-center gap-1.5 bg-slate-900/90 backdrop-blur-md border border-slate-700/80 p-1 rounded-lg shadow-lg">
-            {/* Basemap Switcher */}
-            <button
-              id="map-style-dark-btn"
-              onClick={() => setMapStyle('dark')}
-              className={`px-2.5 py-1 text-[11px] font-medium rounded transition-all ${mapStyle === 'dark' ? 'bg-cyan-600 text-white shadow' : 'text-slate-400 hover:text-white'}`}
-            >
-              Tactical Dark
-            </button>
-            <button
-              id="map-style-satellite-btn"
-              onClick={() => setMapStyle('satellite')}
-              className={`px-2.5 py-1 text-[11px] font-medium rounded transition-all ${mapStyle === 'satellite' ? 'bg-cyan-600 text-white shadow' : 'text-slate-400 hover:text-white'}`}
-            >
-              SAR / Satellite
-            </button>
-            <button
-              id="map-style-oceans-btn"
-              onClick={() => setMapStyle('oceans')}
-              className={`px-2.5 py-1 text-[11px] font-medium rounded transition-all ${mapStyle === 'oceans' ? 'bg-cyan-600 text-white shadow' : 'text-slate-400 hover:text-white'}`}
-            >
-              Nautical Light
-            </button>
-
-            <span className="text-slate-700">|</span>
-
-            {/* Layer Filter Toggle */}
-            <button
-              id="map-layer-menu-toggle"
-              onClick={() => setShowLayerMenu(!showLayerMenu)}
-              className={`p-1.5 rounded transition-all ${showLayerMenu ? 'bg-slate-700 text-cyan-400' : 'text-slate-400 hover:text-white'}`}
-              title="Toggle GIS Layers"
-            >
-              <Layers className="w-4 h-4" />
-            </button>
-
-            {/* Reset View */}
-            <button
-              id="map-reset-view-btn"
-              onClick={resetView}
-              className="p-1.5 rounded text-slate-400 hover:text-white hover:bg-slate-800 transition-all"
-              title="Recenter Map"
-            >
-              <Maximize2 className="w-4 h-4" />
-            </button>
-          </div>
-
-          {/* Layer Menu Dropdown */}
-          {showLayerMenu && (
-            <div className="bg-slate-900/95 backdrop-blur-md border border-slate-700 p-3 rounded-lg shadow-2xl w-60 text-xs space-y-2 animate-in fade-in zoom-in-95 duration-150">
-              <div className="font-bold text-slate-200 pb-1.5 border-b border-slate-800 flex items-center justify-between">
-                <span>Active GIS Layers</span>
-                <span className="text-[10px] text-slate-500 font-normal">GIS Multi-Layer</span>
-              </div>
-
-              <div className="space-y-1.5">
-                <label className="flex items-center justify-between cursor-pointer text-slate-300 hover:text-white p-1 rounded hover:bg-slate-800/60">
-                  <span className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-sm bg-rose-500"></span>
-                    Suspected Oil Slick
-                  </span>
-                  <input
-                    type="checkbox"
-                    checked={layers.slick}
-                    onChange={() => toggleLayer('slick')}
-                    className="accent-rose-500 rounded"
-                  />
-                </label>
-
-                <label className="flex items-center justify-between cursor-pointer text-slate-300 hover:text-white p-1 rounded hover:bg-slate-800/60">
-                  <span className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
-                    Probable Spill Origin
-                  </span>
-                  <input
-                    type="checkbox"
-                    checked={layers.origin}
-                    onChange={() => toggleLayer('origin')}
-                    className="accent-amber-500 rounded"
-                  />
-                </label>
-
-                <label className="flex items-center justify-between cursor-pointer text-slate-300 hover:text-white p-1 rounded hover:bg-slate-800/60">
-                  <span className="flex items-center gap-2">
-                    <span className="w-2.5 h-0.5 bg-amber-400"></span>
-                    Drift Hindcast Path
-                  </span>
-                  <input
-                    type="checkbox"
-                    checked={layers.hindcast}
-                    onChange={() => toggleLayer('hindcast')}
-                    className="accent-amber-500 rounded"
-                  />
-                </label>
-
-                <label className="flex items-center justify-between cursor-pointer text-slate-300 hover:text-white p-1 rounded hover:bg-slate-800/60">
-                  <span className="flex items-center gap-2">
-                    <span className="w-2.5 h-0.5 bg-cyan-400"></span>
-                    Forecast Plume Cone
-                  </span>
-                  <input
-                    type="checkbox"
-                    checked={layers.forecast}
-                    onChange={() => toggleLayer('forecast')}
-                    className="accent-cyan-500 rounded"
-                  />
-                </label>
-
-                <label className="flex items-center justify-between cursor-pointer text-slate-300 hover:text-white p-1 rounded hover:bg-slate-800/60">
-                  <span className="flex items-center gap-2">
-                    <span className="w-2.5 h-0.5 bg-pink-500"></span>
-                    AIS Vessel Trajectories
-                  </span>
-                  <input
-                    type="checkbox"
-                    checked={layers.aisTracks}
-                    onChange={() => toggleLayer('aisTracks')}
-                    className="accent-pink-500 rounded"
-                  />
-                </label>
-
-                <label className="flex items-center justify-between cursor-pointer text-slate-300 hover:text-white p-1 rounded hover:bg-slate-800/60">
-                  <span className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-rose-600"></span>
-                    Vessel Positions & Rank
-                  </span>
-                  <input
-                    type="checkbox"
-                    checked={layers.vessels}
-                    onChange={() => toggleLayer('vessels')}
-                    className="accent-rose-500 rounded"
-                  />
-                </label>
-              </div>
+        <div className="absolute top-2.5 inset-x-2.5 z-[400] flex items-start justify-between gap-2 pointer-events-none">
+          {/* Tactical HUD Header (Stacked with Coordinates & AIS status below title) */}
+          <div className="flex flex-col gap-1 bg-slate-900/90 backdrop-blur-md border border-slate-700/80 px-3 py-1.5 rounded-lg shadow-lg text-xs pointer-events-auto">
+            <div className="flex items-center gap-1.5 text-cyan-400 font-semibold uppercase tracking-wider text-[11px]">
+              <Compass className="w-3.5 h-3.5 animate-spin text-cyan-400 shrink-0" style={{ animationDuration: '12s' }} />
+              <span className="whitespace-nowrap font-bold">Maritime GIS Engine</span>
             </div>
-          )}
+            <div className="flex items-center gap-2 text-[10.5px] text-slate-300 font-mono">
+              <span className="whitespace-nowrap">
+                {cursorCoords ? `${cursorCoords.lat.toFixed(4)}°N, ${cursorCoords.lng.toFixed(4)}°E` : `${incident.coordinates.lat.toFixed(4)}°N, ${incident.coordinates.lng.toFixed(4)}°E`}
+              </span>
+              <span className="text-slate-600">•</span>
+              <span className="text-emerald-400 font-medium font-sans flex items-center gap-1 whitespace-nowrap">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
+                AIS Live Feed
+              </span>
+            </div>
+          </div>
+
+          {/* Tactical Map Controls & Layer Selector (Top aligned) */}
+          <div className="relative flex flex-col items-end pointer-events-auto ml-auto">
+            <div className="flex items-center gap-1.5 bg-slate-900/90 backdrop-blur-md border border-slate-700/80 p-1 rounded-lg shadow-lg">
+              {/* Basemap Switcher */}
+              <button
+                id="map-style-dark-btn"
+                onClick={() => setMapStyle('dark')}
+                className={`px-2.5 py-1 text-[11px] font-medium rounded transition-all whitespace-nowrap ${mapStyle === 'dark' ? 'bg-cyan-600 text-white shadow' : 'text-slate-400 hover:text-white'}`}
+              >
+                Tactical Dark
+              </button>
+              <button
+                id="map-style-satellite-btn"
+                onClick={() => setMapStyle('satellite')}
+                className={`px-2.5 py-1 text-[11px] font-medium rounded transition-all whitespace-nowrap ${mapStyle === 'satellite' ? 'bg-cyan-600 text-white shadow' : 'text-slate-400 hover:text-white'}`}
+              >
+                SAR / Satellite
+              </button>
+              <button
+                id="map-style-oceans-btn"
+                onClick={() => setMapStyle('oceans')}
+                className={`px-2.5 py-1 text-[11px] font-medium rounded transition-all whitespace-nowrap ${mapStyle === 'oceans' ? 'bg-cyan-600 text-white shadow' : 'text-slate-400 hover:text-white'}`}
+              >
+                Nautical Light
+              </button>
+
+              <span className="text-slate-700">|</span>
+
+              {/* Layer Filter Toggle */}
+              <button
+                id="map-layer-menu-toggle"
+                onClick={() => setShowLayerMenu(!showLayerMenu)}
+                className={`p-1.5 rounded transition-all ${showLayerMenu ? 'bg-slate-700 text-cyan-400' : 'text-slate-400 hover:text-white'}`}
+                title="Toggle GIS Layers"
+              >
+                <Layers className="w-4 h-4" />
+              </button>
+
+              {/* Reset View */}
+              <button
+                id="map-reset-view-btn"
+                onClick={resetView}
+                className="p-1.5 rounded text-slate-400 hover:text-white hover:bg-slate-800 transition-all"
+                title="Recenter Map"
+              >
+                <Maximize2 className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Layer Menu Dropdown */}
+            {showLayerMenu && (
+              <div className="absolute top-full right-0 mt-2 bg-slate-900/95 backdrop-blur-md border border-slate-700 p-3 rounded-lg shadow-2xl w-60 text-xs space-y-2 animate-in fade-in zoom-in-95 duration-150 z-50">
+                <div className="font-bold text-slate-200 pb-1.5 border-b border-slate-800 flex items-center justify-between">
+                  <span>Active GIS Layers</span>
+                  <span className="text-[10px] text-slate-500 font-normal">GIS Multi-Layer</span>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="flex items-center justify-between cursor-pointer text-slate-300 hover:text-white p-1 rounded hover:bg-slate-800/60">
+                    <span className="flex items-center gap-2">
+                      <span className="w-2.5 h-2.5 rounded-sm bg-rose-500"></span>
+                      Suspected Oil Slick
+                    </span>
+                    <input
+                      type="checkbox"
+                      checked={layers.slick}
+                      onChange={() => toggleLayer('slick')}
+                      className="accent-rose-500 rounded"
+                    />
+                  </label>
+
+                  <label className="flex items-center justify-between cursor-pointer text-slate-300 hover:text-white p-1 rounded hover:bg-slate-800/60">
+                    <span className="flex items-center gap-2">
+                      <span className="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+                      Probable Spill Origin
+                    </span>
+                    <input
+                      type="checkbox"
+                      checked={layers.origin}
+                      onChange={() => toggleLayer('origin')}
+                      className="accent-amber-500 rounded"
+                    />
+                  </label>
+
+                  <label className="flex items-center justify-between cursor-pointer text-slate-300 hover:text-white p-1 rounded hover:bg-slate-800/60">
+                    <span className="flex items-center gap-2">
+                      <span className="w-2.5 h-0.5 bg-amber-400"></span>
+                      Drift Hindcast Path
+                    </span>
+                    <input
+                      type="checkbox"
+                      checked={layers.hindcast}
+                      onChange={() => toggleLayer('hindcast')}
+                      className="accent-amber-500 rounded"
+                    />
+                  </label>
+
+                  <label className="flex items-center justify-between cursor-pointer text-slate-300 hover:text-white p-1 rounded hover:bg-slate-800/60">
+                    <span className="flex items-center gap-2">
+                      <span className="w-2.5 h-0.5 bg-cyan-400"></span>
+                      Forecast Plume Cone
+                    </span>
+                    <input
+                      type="checkbox"
+                      checked={layers.forecast}
+                      onChange={() => toggleLayer('forecast')}
+                      className="accent-cyan-500 rounded"
+                    />
+                  </label>
+
+                  <label className="flex items-center justify-between cursor-pointer text-slate-300 hover:text-white p-1 rounded hover:bg-slate-800/60">
+                    <span className="flex items-center gap-2">
+                      <span className="w-2.5 h-0.5 bg-pink-500"></span>
+                      AIS Vessel Trajectories
+                    </span>
+                    <input
+                      type="checkbox"
+                      checked={layers.aisTracks}
+                      onChange={() => toggleLayer('aisTracks')}
+                      className="accent-pink-500 rounded"
+                    />
+                  </label>
+
+                  <label className="flex items-center justify-between cursor-pointer text-slate-300 hover:text-white p-1 rounded hover:bg-slate-800/60">
+                    <span className="flex items-center gap-2">
+                      <span className="w-2.5 h-2.5 rounded-full bg-rose-600"></span>
+                      Vessel Positions & Rank
+                    </span>
+                    <input
+                      type="checkbox"
+                      checked={layers.vessels}
+                      onChange={() => toggleLayer('vessels')}
+                      className="accent-rose-500 rounded"
+                    />
+                  </label>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       )}
 

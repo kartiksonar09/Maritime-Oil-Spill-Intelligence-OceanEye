@@ -102,7 +102,7 @@ export const SystemArchitectureView: React.FC = () => {
           </span>
         </div>
         <h1 className="text-xl lg:text-3xl font-black text-white tracking-tight">
-          Maritime Oil Spill Intelligence System Architecture & Algorithmic Pipeline
+          SpillTrace AI System Architecture & Algorithmic Pipeline
         </h1>
         <p className="text-xs lg:text-sm text-neutral-400 max-w-3xl leading-relaxed">
           "An automated detection and hindcasting machine learning model that identifies oil slicks from satellite imagery, maps their drift paths backward and forward. It also ranks potential culprit vessels based on spatio-temporal correlation with AIS data."
