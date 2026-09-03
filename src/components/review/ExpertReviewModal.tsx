@@ -12,7 +12,8 @@ import {
   RotateCcw,
   ShieldCheck,
   AlertTriangle,
-  X
+  X,
+  Loader2
 } from 'lucide-react';
 
 interface ExpertReviewModalProps {
@@ -50,9 +51,13 @@ export const ExpertReviewModal: React.FC<ExpertReviewModalProps> = ({
     incident.expertReview?.recommendedAction ||
       'Dispatch CG Dornier-228 for aerial verification and notify Sikka Port State Control to initiate MARPOL Annex I inspection upon arrival.'
   );
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (isSubmitting) return;
+
+    setIsSubmitting(true);
 
     const newReview: ExpertReview = {
       reviewedBy: reviewerName,
@@ -65,8 +70,11 @@ export const ExpertReviewModal: React.FC<ExpertReviewModalProps> = ({
       recommendedAction
     };
 
-    onSubmitReview(incident.id, newReview);
-    onClose();
+    setTimeout(() => {
+      onSubmitReview(incident.id, newReview);
+      setIsSubmitting(false);
+      onClose();
+    }, 350);
   };
 
   return (
@@ -229,10 +237,23 @@ export const ExpertReviewModal: React.FC<ExpertReviewModalProps> = ({
                 Cancel
               </button>
               <button
+                id="submit-expert-review-btn"
                 type="submit"
-                className="px-5 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold shadow-lg shadow-cyan-600/20 transition-all"
+                disabled={isSubmitting}
+                className={`px-5 py-2.5 rounded-xl font-bold shadow-lg transition-all flex items-center gap-2 ${
+                  isSubmitting
+                    ? 'bg-cyan-800 text-neutral-300 cursor-wait opacity-80'
+                    : 'bg-cyan-600 hover:bg-cyan-500 text-white shadow-cyan-600/20'
+                }`}
               >
-                Sign Off & Authenticate
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin text-cyan-300" />
+                    <span>Authenticating & Signing...</span>
+                  </>
+                ) : (
+                  <span>Sign Off & Authenticate</span>
+                )}
               </button>
             </div>
           </div>

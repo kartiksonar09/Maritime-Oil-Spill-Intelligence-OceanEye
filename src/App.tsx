@@ -25,6 +25,7 @@ import { SystemArchitectureView } from './components/architecture/SystemArchitec
 
 // Modals
 import { ExpertReviewModal } from './components/review/ExpertReviewModal';
+import { SignOffSuccessModal } from './components/review/SignOffSuccessModal';
 
 export const App: React.FC = () => {
   // Application Data States
@@ -38,6 +39,8 @@ export const App: React.FC = () => {
   // Navigation & UI States
   const [activeTab, setActiveTab] = useState<string>('dashboard');
   const [isReviewModalOpen, setIsReviewModalOpen] = useState<boolean>(false);
+  const [isSignOffSuccessOpen, setIsSignOffSuccessOpen] = useState<boolean>(false);
+  const [lastSubmittedReview, setLastSubmittedReview] = useState<ExpertReview | null>(null);
 
   // When switching current incident, reset selected vessel to top candidate
   const handleSelectIncident = (incident: Incident) => {
@@ -101,6 +104,28 @@ export const App: React.FC = () => {
       }
       return prev;
     });
+
+    // Add notification alert to logbook
+    const targetIncident = incidents.find(i => i.id === incidentId) || currentIncident;
+    const newAlert: AlertItem = {
+      id: `alert_rev_${Date.now()}`,
+      incidentId,
+      incidentCode: targetIncident.incidentCode,
+      title: `Investigator Sign-Off: ${review.decision === 'ACCEPTED' ? 'Endorsed & Authenticated' : review.decision}`,
+      category: 'REVIEW_REQUIRED',
+      severity: 'LOW',
+      timestamp: review.reviewTimestamp,
+      location: targetIncident.region,
+      coordinates: targetIncident.coordinates,
+      summary: `${review.reviewedBy} (${review.reviewerRole}) submitted official sign-off with ${review.confidenceRating}/5 star confidence. Digital hash: ${review.digitalSignatureHash.slice(0, 12)}...`,
+      recommendedAction: review.recommendedAction,
+      isRead: false
+    };
+    setAlerts(prev => [newAlert, ...prev]);
+
+    // Save submitted review and trigger on-screen Success Popup
+    setLastSubmittedReview(review);
+    setIsSignOffSuccessOpen(true);
   };
 
   // Mark alerts as acknowledged
@@ -228,6 +253,18 @@ export const App: React.FC = () => {
         isOpen={isReviewModalOpen}
         onClose={() => setIsReviewModalOpen(false)}
         onSubmitReview={handleSubmitReview}
+      />
+
+      {/* Investigator Sign-off Successfully Submitted Pop-up Modal */}
+      <SignOffSuccessModal
+        isOpen={isSignOffSuccessOpen}
+        onClose={() => setIsSignOffSuccessOpen(false)}
+        review={lastSubmittedReview || currentIncident.expertReview || null}
+        incident={currentIncident}
+        onViewReport={() => {
+          setIsSignOffSuccessOpen(false);
+          setActiveTab('reports');
+        }}
       />
     </div>
   );
